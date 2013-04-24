@@ -1,9 +1,7 @@
-mmdd
+
+Make Me Discoverable Daemon (MMDD)
 ====
 
-Make Me Discoverable Daemon
-====
 
-
-Install
-========
+How to build 
+-------------
