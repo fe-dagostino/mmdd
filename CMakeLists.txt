@@ -18,9 +18,6 @@ IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
   set(  MMDC_VERSION
         -debug
      )
-  set(  MMDE_VERSION
-        -debug
-     )
   set(  FEDLIB_VER
         -3.0.1-static-debug
      )
@@ -28,8 +25,6 @@ ELSE()
   set(  MMDD_VERSION
      )
   set(  MMDC_VERSION
-     )
-  set(  MMDE_VERSION
      )
   set(  FEDLIB_VER
         -3.0.1-static
