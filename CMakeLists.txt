@@ -112,9 +112,7 @@ add_definitions(
 
 add_executable( mmdd${MMDD_VERSION}          ${MMDD_SRC}       )
 add_executable( mmdc${MMDC_VERSION}          ${MMDC_SRC}       )
-add_executable( mmde${MMDE_VERSION}          ${MMDE_SRC}       )
 
 target_link_libraries( mmdd${MMDD_VERSION}   ${MMDD_LIBRARIES} )
 target_link_libraries( mmdc${MMDC_VERSION}   ${MMDC_LIBRARIES} )
-target_link_libraries( mmde${MMDE_VERSION}   ${MMDE_LIBRARIES} )
 
