@@ -273,6 +273,7 @@ ENTER( HandleMMDProtoMessage() )
       }
     }; break;
 
+#ifdef _ENABLE_MMDE 
     case MMDP_CMD_EXEC_REQUEST :
     {
       const MMDP_ExecRequest*  _cmd = (const MMDP_ExecRequest*)pHeader; 
@@ -309,6 +310,7 @@ ENTER( HandleMMDProtoMessage() )
          }
       }
     }; break;
+#endif // _ENABLE_MMDE
     
     default:
     {

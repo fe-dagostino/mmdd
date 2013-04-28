@@ -10,7 +10,7 @@ Application has been divided in three different parts
 2. mmdc : this is a command line client, it just send a broadcast message and 
           diplay all replies to the users. Each reply will contains some information
           like source ip, serial number and description.
-3. mmde : if mmdd has been compiled with MMDD_ENABLE_EXECUTION will be possible to
+3. mmde : if mmdd has been compiled with _ENABLE_MMDE will be possible to
           use this command line tool in order to execute commands on the specific
           devices or on all devices at the same time. It is useful if you need, for 
           example, to reboot all devices in your network without to connect to each 
@@ -26,6 +26,6 @@ download fedlibrary directly from CVS -- http://sourceforge.net/projects/fedlibr
 
 mkdir build
 cd build
-cmake ../
+cmake ../ or cmake -D ENABLE_MMDE=1 ../
 make
 

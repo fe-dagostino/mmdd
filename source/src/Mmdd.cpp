@@ -14,7 +14,7 @@ Mmdd::Mmdd( int argc, char* argv[] )
                  TRUE, 
                  new MmddEvents(), 
                  "Make Me Discoverable Daemon",
-                 MAKEVERSION( 1,0,0,0 ),
+                 MAKEVERSION( 1,1,0,0 ),
                  argc, argv
               )
 ENTER(Mmdd())

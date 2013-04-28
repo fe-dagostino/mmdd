@@ -18,6 +18,9 @@ IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
   set(  MMDC_VERSION
         -debug
      )
+  set(  MMDE_VERSION
+        -debug
+     )
   set(  FEDLIB_VER
         -3.0.1-static-debug
      )
@@ -26,10 +29,13 @@ ELSE()
      )
   set(  MMDC_VERSION
      )
+  set(  MMDE_VERSION
+     )
   set(  FEDLIB_VER
         -3.0.1-static
      )
 ENDIF()
+
 
 
 set(  MMDD_INCLUDE 
@@ -58,20 +64,8 @@ set(  MMDC_INCLUDE
         ./source/include/proto/mmd_proto.h
 )
 
-set(  MMDE_INCLUDE 
-        ./source/include/crc/crc-ccitt.h
-        ./source/include/crc/lib_crc.h
-        ./source/include/proto/mmd_proto.h
-)
-
 set(  MMDC_SRC   
         ./source/src/mmdc.cpp
-        ./source/src/crc/crc-ccitt.c
-        ./source/src/crc/lib_crc.c
-)
-
-set(  MMDE_SRC   
-        ./source/src/mmde.cpp
         ./source/src/crc/crc-ccitt.c
         ./source/src/crc/lib_crc.c
 )
@@ -86,15 +80,38 @@ set(  MMDC_LIBRARIES
       fedlibrary${FEDLIB_VER}
 )
 
+IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
+add_definitions(
+       -ggdb3
+)
+ENDIF()
+
+IF( ENABLE_MMDE STREQUAL "1"  )
+set(  MMDE_INCLUDE 
+        ./source/include/crc/crc-ccitt.h
+        ./source/include/crc/lib_crc.h
+        ./source/include/proto/mmd_proto.h
+)
+
+set(  MMDE_SRC   
+        ./source/src/mmde.cpp
+        ./source/src/crc/crc-ccitt.c
+        ./source/src/crc/lib_crc.c
+)
+
 set(  MMDE_LIBRARIES
       pthread
       fedlibrary${FEDLIB_VER}
 )
 
-IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
 add_definitions(
-       -ggdb3
+       -D_ENABLE_MMDE
 )
+
+
+add_executable( mmde${MMDE_VERSION}          ${MMDE_SRC}       )
+target_link_libraries( mmde${MMDE_VERSION}   ${MMDE_LIBRARIES} )
+
 ENDIF()
 
 add_definitions( 
