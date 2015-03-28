@@ -30,7 +30,3 @@ before_script:
 
 script: make
 
-branches:
-  only:
-    - master
-
