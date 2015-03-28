@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.6)
 PROJECT(mmdd)
 
 include_directories( ./source/include/ )
-include_directories( ../FEDLibrary/source/include/ )
+include_directories( ${CMAKE_INSTALL_PREFIX}/include/fedlibrary/include )
 
 IF(NOT CMAKE_BUILD_TYPE )
   SET(CMAKE_BUILD_TYPE Release CACHE STRING
@@ -18,16 +18,21 @@ IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
   set(  MMDC_VERSION
         -debug
      )
+  set(  MMDE_VERSION
+        -debug
+     )
   set(  FEDLIB_VER
-        -3.0.1-static-debug
+        -3.1.1-static-debug
      )
 ELSE()
   set(  MMDD_VERSION
      )
   set(  MMDC_VERSION
      )
+  set(  MMDE_VERSION
+     )
   set(  FEDLIB_VER
-        -3.0.1-static
+        -3.1.1-static
      )
 ENDIF()
 
@@ -112,7 +117,9 @@ add_definitions(
 
 add_executable( mmdd${MMDD_VERSION}          ${MMDD_SRC}       )
 add_executable( mmdc${MMDC_VERSION}          ${MMDC_SRC}       )
+add_executable( mmde${MMDE_VERSION}          ${MMDE_SRC}       )
 
 target_link_libraries( mmdd${MMDD_VERSION}   ${MMDD_LIBRARIES} )
 target_link_libraries( mmdc${MMDC_VERSION}   ${MMDC_LIBRARIES} )
+target_link_libraries( mmde${MMDE_VERSION}   ${MMDE_LIBRARIES} )
 
