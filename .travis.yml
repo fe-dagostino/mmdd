@@ -6,6 +6,9 @@ compiler:
 before_install:
   - echo $LANG
   - echo $LC_ALL
+  - mkdir build & cd build
+  - cmake ../
+  - make
  
 branches:
   only:
