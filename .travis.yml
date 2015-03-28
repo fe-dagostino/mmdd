@@ -20,8 +20,8 @@ before_script:
   - cd build
   - cmake ../ -DFORCE_PIC=ON 
   - make 
-  - make install 
-  - ldconfig 
+  - sudo make install 
+  - sudo ldconfig 
   - cd ../../
 # Execute cmake configuration
   - mkdir build
