@@ -1,15 +1,26 @@
 language: cpp
 
 compiler:
-  - g++
+  - gcc
 
 before_install:
-  - echo $LANG
-  - echo $LC_ALL
-  - mkdir build && cd build
-  - cmake ../
-  - make
- 
+  - git clone git://git.code.sf.net/p/fedlibrary/git fedlibrary
+  - cd fedlibrary 
+  - mkdir build 
+  - cd build
+  - cmake ../ -DFORCE_PIC=ON 
+  - make 
+  - make install 
+  - ldconfig 
+  - cd ../../
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script: make
+
 branches:
   only:
     - master
