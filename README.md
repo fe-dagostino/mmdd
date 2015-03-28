@@ -22,10 +22,26 @@ Application has been divided in three different parts
 How to build 
 ----
 
-download fedlibrary directly from CVS -- http://sourceforge.net/projects/fedlibrary/
+**FEDLibrary** - *http://sourceforge.net/projects/fedlibrary/*
+```
+git clone git://git.code.sf.net/p/fedlibrary/git fedlibrary
+cd fedlibrary 
+mkdir build 
+cd build
+cmake ../ -DFORCE_PIC=ON 
+make 
+make install 
+ldconfig 
+cd ../../ 
+```
 
+**MMDD** 
+```
+git clone https://github.com/fe-dagostino/mmdd.git mmdd
+cd mmdd
 mkdir build
 cd build
 cmake ../
 make
+```
 
