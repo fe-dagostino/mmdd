@@ -1,0 +1,13 @@
+language: cpp
+
+compiler:
+  - g++
+
+before_install:
+  - echo $LANG
+  - echo $LC_ALL
+ 
+branches:
+  only:
+    - master
+
