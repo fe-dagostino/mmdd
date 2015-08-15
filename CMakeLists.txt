@@ -89,18 +89,18 @@ set(  MMDE_SRC
 )
 
 set(  MMDD_LIBRARIES
-      pthread
       fedlibrary${FEDLIB_VER}
+      pthread
 )
 
 set(  MMDC_LIBRARIES
-      pthread
       fedlibrary${FEDLIB_VER}
+      pthread
 )
 
 set(  MMDE_LIBRARIES
-      pthread
       fedlibrary${FEDLIB_VER}
+      pthread
 )
 
 IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
