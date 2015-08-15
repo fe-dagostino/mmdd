@@ -110,17 +110,18 @@ add_definitions(
 ENDIF()
 
 add_definitions( 
-		  -D__STDC_CONSTANT_MACROS
-		  -D_NO_FED_NAMESPACE
-		  -D_TRACING_EXCEPTION_RAISE
-		  -D_TRACING_EXCEPTION_CATCH
-		  -D_ENABLE_ERROR_INFO
-		  -D_ENABLE_LOG_INFO
-		  -D_ENABLE_RAW_INFO
-		  -D_ENABLE_METHOD_TRACING
-		  -D_ENABLE_VERBOSE_INFO 
-		  -D_ENABLE_ASSERTION_TRACING
-		)
+                  -Wall
+                  -D__STDC_CONSTANT_MACROS
+                  -D_NO_FED_NAMESPACE
+                  -D_TRACING_EXCEPTION_RAISE
+                  -D_TRACING_EXCEPTION_CATCH
+                  -D_ENABLE_ERROR_INFO
+                  -D_ENABLE_LOG_INFO
+                  -D_ENABLE_RAW_INFO
+                  -D_ENABLE_METHOD_TRACING
+                  -D_ENABLE_VERBOSE_INFO 
+                  -D_ENABLE_ASSERTION_TRACING
+                )
 
 add_executable( mmdd${MMDD_VERSION}          ${MMDD_SRC}       )
 add_executable( mmdc${MMDC_VERSION}          ${MMDC_SRC}       )

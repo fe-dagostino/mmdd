@@ -92,7 +92,8 @@ EXIT
 VOID MmddEvents::OnRun(const FService* pService)
 ENTER( OnRun() )
 
-  Mmdd*    _pService        = (Mmdd*)pService;
+  (void)pService;
+  
   size_t   _iBufferSize     = 1024;
   VOID*    _pReadingBuffer  = malloc( _iBufferSize );
 
@@ -313,6 +314,7 @@ ENTER( HandleMMDProtoMessage() )
     }; break;
   }
 
+  return TRUE;
 EXIT
 
       
