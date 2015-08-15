@@ -37,6 +37,13 @@ ELSE()
 ENDIF()
 
 
+option (MMDD_EXEC_SUPPORT          "Support Exec commands"             OFF) 
+
+if (MMDD_EXEC_SUPPORT)
+  add_definitions( -D_MMDD_EXEC_ENABLED )
+endif (MMDD_EXEC_SUPPORT)
+
+
 set(  MMDD_INCLUDE 
         ./source/include/Mmdd.h
         ./source/include/MmddConfig.h

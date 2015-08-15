@@ -62,7 +62,7 @@ int main( int argc, char* argv[] )
 	    MMDP_DiscoveryReply*  _pReply = (MMDP_DiscoveryReply*)_pHeader;
 	    FString               _sSerial( (const char*)_pReply->SERIAL, _pReply->SER_LEN );
 	    FString               _sDescription( (const char*)_pReply->DESCRIPTION, _pReply->DSC_LEN );
-	    FString               _sIp = FSocket::Inet2String( _source.sin_addr );
+	    FString               _sIp    = FSocket::Inet2String( _source.sin_addr );
 	    
 	    printf( "DEVICE TYPE [%#X] IP [%s]\n", _pReply->DEVICE_TYPE, (const char*)_sIp );
 	    printf( "   |- SERIAL       [%s]\n", (const char*)_sSerial );

@@ -19,74 +19,74 @@ USING_NAMESPACE_LOGGING
 
 BOOL MmddEvents::OnStart( const FService* pService )
 ENTER( OnStart() )
-	const Mmdd* _pMmddSrv = (const Mmdd*)pService;
+  const Mmdd* _pMmddSrv = (const Mmdd*)pService;
 
-	//////////////
-	//  Initialize Smcd configuration
-	FTRY
-	{
-		MmddConfig::Initialize();
-	}
-	FCATCH( FException, ex )
-	{
-		TRACE_EXCEPTION_CATCH( ex, OnStart() )
-	}
+  //////////////
+  //  Initialize Smcd configuration
+  FTRY
+  {
+    MmddConfig::Initialize();
+  }
+  FCATCH( FException, ex )
+  {
+    TRACE_EXCEPTION_CATCH( ex, OnStart() )
+  }
 
-	///////////////////
-	// Initialize the log device collector
-	FLogDeviceCollector::Initialize();
+  ///////////////////
+  // Initialize the log device collector
+  FLogDeviceCollector::Initialize();
 
-	///////////////////
-	// Create message colorozation class instance used to colorize
-	// streamed messages on the consolle and on the tcp.
-	const ILogMessageColorization* pLogMessageColorization  = new FLogMessageColorization();
+  ///////////////////
+  // Create message colorozation class instance used to colorize
+  // streamed messages on the consolle and on the tcp.
+  const ILogMessageColorization* pLogMessageColorization  = new FLogMessageColorization();
 
-	///////////////////
-	// Create an instace for a Log device over TCP.
-	// The device will accept row tcp connection on port 10000 on each active interface.
-	ILogDevice* _pLogDevice0 = new FTcpLogDevice( "TCP", 
-                                                  MmddConfig::GetInstance().GetLogServerAddress( NULL ), // Default "127.0.0.1" 
-						  MmddConfig::GetInstance().GetLogServerPort( NULL ),    // Default 55930 
-                                                  pLogMessageColorization 
-					 );
-	ILogDevice* _pLogDevice1 = new FDiskLogDevice( "DLD",
-						       0xFFFFFFFF,
-						       MmddConfig::GetInstance().GetLogPath( NULL ),
-						       MmddConfig::GetInstance().GetLogPrefix( NULL ),
-						       MmddConfig::GetInstance().GetLogExtension( NULL ),
-						       MmddConfig::GetInstance().GetLogMaxFiles( NULL ),
-						       MmddConfig::GetInstance().GetLogSizeLimit( NULL )
-						     );
-	
+  ///////////////////
+  // Create an instace for a Log device over TCP.
+  // The device will accept row tcp connection on port 10000 on each active interface.
+  ILogDevice* _pLogDevice0 = new FTcpLogDevice( "TCP", 
+                                                MmddConfig::GetInstance().GetLogServerAddress( NULL ), // Default "127.0.0.1" 
+                                                MmddConfig::GetInstance().GetLogServerPort( NULL ),    // Default 55930 
+                                                pLogMessageColorization 
+                                              );
+  ILogDevice* _pLogDevice1 = new FDiskLogDevice( "DLD",
+                                                 0xFFFFFFFF,
+                                                 MmddConfig::GetInstance().GetLogPath( NULL ),
+                                                 MmddConfig::GetInstance().GetLogPrefix( NULL ),
+                                                 MmddConfig::GetInstance().GetLogExtension( NULL ),
+                                                 MmddConfig::GetInstance().GetLogMaxFiles( NULL ),
+                                                 MmddConfig::GetInstance().GetLogSizeLimit( NULL )
+                                               );
+
 #ifdef _DEBUG 
-	ILogDevice* _pLogDevice2 = new FConsoleLogDevice( "CON", pLogMessageColorization );
+  ILogDevice* _pLogDevice2 = new FConsoleLogDevice( "CON", pLogMessageColorization );
 #endif
-	///////////////////
-	// Add the new device to the list of available devices.
-	FLogDeviceCollector::GetInstance().AddDevice( _pLogDevice0 );
-	FLogDeviceCollector::GetInstance().AddDevice( _pLogDevice1 );
+  ///////////////////
+  // Add the new device to the list of available devices.
+  FLogDeviceCollector::GetInstance().AddDevice( _pLogDevice0 );
+  FLogDeviceCollector::GetInstance().AddDevice( _pLogDevice1 );
 #ifdef _DEBUG 
-	FLogDeviceCollector::GetInstance().AddDevice( _pLogDevice2 );
+  FLogDeviceCollector::GetInstance().AddDevice( _pLogDevice2 );
 #endif
-	///////////////////
-	// Initialize the Logger
-	FLogger::Initialize();
+  ///////////////////
+  // Initialize the Logger
+  FLogger::Initialize();
 
-	///////////////////
-	// Register the device for message dispatching.
-	FLogger::GetInstance().RegisterDevice( "TCP" );
-	FLogger::GetInstance().RegisterDevice( "DLD" );
+  ///////////////////
+  // Register the device for message dispatching.
+  FLogger::GetInstance().RegisterDevice( "TCP" );
+  FLogger::GetInstance().RegisterDevice( "DLD" );
 #ifdef _DEBUG
-	FLogger::GetInstance().RegisterDevice( "CON" );
+  FLogger::GetInstance().RegisterDevice( "CON" );
 #endif
-	(GET_LOG_MAILBOX())->SetLogMessageFlags( _pMmddSrv->GetLogMessageFlags()     );
-	(GET_LOG_MAILBOX())->SetVerbosityFlags ( _pMmddSrv->GetVerbosityLevelFlags() );
+  (GET_LOG_MAILBOX())->SetLogMessageFlags( _pMmddSrv->GetLogMessageFlags()     );
+  (GET_LOG_MAILBOX())->SetVerbosityFlags ( _pMmddSrv->GetVerbosityLevelFlags() );
 
-	//Initialize member variable that control the program exit
-	m_bExit   = FALSE;
-	m_pSocket = NULL;
+  //Initialize member variable that control the program exit
+  m_bExit   = FALSE;
+  m_pSocket = NULL;
 
-	return TRUE;
+  return TRUE;
 EXIT
 
 VOID MmddEvents::OnRun(const FService* pService)
@@ -100,33 +100,29 @@ ENTER( OnRun() )
   {
     if ( m_pSocket == NULL )
     { 
-      m_pSocket = new FSocket(
-			      AF_INET,
-			      SOCK_DGRAM,
-			      IPPROTO_UDP
-			    );
-			    
+      m_pSocket = new FSocket( AF_INET, SOCK_DGRAM, IPPROTO_UDP );
+
       if ( m_pSocket == NULL )
       {
-	ERROR_INFO( "Not Enough Memory : failed allocating Socket", OnRun() )
-	
-	FThread::Sleep( 1000 );
-	
-	continue;
+        ERROR_INFO( "Not Enough Memory : failed allocating Socket", OnRun() )
+
+        FThread::Sleep( 1000 );
+
+        continue;
       }
       
       FTRY
       {
-	m_pSocket->SetReuseAddress( TRUE );
-	
-	m_pSocket->BindOnBroadcast( MmddConfig::GetInstance().GetBroadcastPort( NULL ) );
+        m_pSocket->SetReuseAddress( TRUE );
+
+        m_pSocket->BindOnBroadcast( MmddConfig::GetInstance().GetBroadcastPort( NULL ) );
       }
       FCATCH( FSocketException, ex )
       {
-	delete m_pSocket;
-	m_pSocket = NULL;
-	
-	TRACE_EXCEPTION_CATCH( ex, OnRun() )
+        delete m_pSocket;
+        m_pSocket = NULL;
+
+        TRACE_EXCEPTION_CATCH( ex, OnRun() )
       }
     }
     
@@ -136,48 +132,47 @@ ENTER( OnRun() )
 
       FTRY
       {
-	WORD _wFlags = m_pSocket->Select( FSocket::READY_FOR_READ|FSocket::TIME_OUT_OCCUR, &_timeout );
+        WORD _wFlags = m_pSocket->Select( FSocket::READY_FOR_READ|FSocket::TIME_OUT_OCCUR, &_timeout );
 
-	if ( _wFlags & FSocket::READY_FOR_READ )
-	{
-	  sockaddr_in   _source;
-	  size_t        _iMsgSize =  m_pSocket->Peek();
-	  
-	  if ( _iMsgSize > _iBufferSize )
-	  {
-	    _pReadingBuffer = realloc( _pReadingBuffer, _iMsgSize );
-	    _iBufferSize = _iMsgSize;
-	  }
-	  
-	  m_pSocket->ReceiveFrom( _pReadingBuffer, _iMsgSize, _source );
-	  if ( _iMsgSize == 0 )
-	  {
-	    VERBOSE_INFO( ILogMessage::VL_HIGH_PERIODIC_MESSAGE, "", OnRun() )
-	  }
-	  else
-	  if ( _iMsgSize <  sizeof(MMDP_Header) )
-	  {
-	    ERROR_INFO( "Received Message with wrong size", OnRun() )
-	  }
-	  else
-	  {
-	    HandleMMDProtoMessage( (const MMDP_Header*)_pReadingBuffer, _source );
-	  }
-	}
+        if ( _wFlags & FSocket::READY_FOR_READ )
+        {
+          sockaddr_in   _source;
+          size_t        _iMsgSize =  m_pSocket->Peek();
+  
+          if ( _iMsgSize > _iBufferSize )
+          {
+            _pReadingBuffer = realloc( _pReadingBuffer, _iMsgSize );
+            _iBufferSize = _iMsgSize;
+          }
+
+          m_pSocket->ReceiveFrom( _pReadingBuffer, _iMsgSize, _source );
+          if ( _iMsgSize == 0 )
+          {
+            VERBOSE_INFO( ILogMessage::VL_HIGH_PERIODIC_MESSAGE, "", OnRun() )
+          }
+          else
+          if ( _iMsgSize <  sizeof(MMDP_Header) )
+          {
+            ERROR_INFO( "Received Message with wrong size", OnRun() )
+          }
+          else
+          {
+            HandleMMDProtoMessage( (const MMDP_Header*)_pReadingBuffer, _source );
+          }
+        }
       }
       FCATCH( FSocketException, ex )
       {
-	delete m_pSocket;
-	m_pSocket = NULL;
+        delete m_pSocket;
+        m_pSocket = NULL;
 
-	TRACE_EXCEPTION_CATCH( ex, OnRun() )
+        TRACE_EXCEPTION_CATCH( ex, OnRun() )
       }
     }
     
-    
     if ( m_pSocket == NULL )
     {
-	FThread::Sleep( 1000 );
+      FThread::Sleep( 1000 );
     }
   }//while ( !m_bExit )
 
@@ -186,8 +181,8 @@ EXIT
 VOID MmddEvents::OnStop(const FService* pService)
 ENTER( OnStop() )
 
-	//
-	m_bExit = TRUE;
+  //
+  m_bExit = TRUE;
 EXIT
 
 VOID MmddEvents::OnInterrogate(const FService* pService)
@@ -255,24 +250,25 @@ ENTER( HandleMMDProtoMessage() )
       WORD    _wDeviceType        = MmddConfig::GetInstance().GetDeviceType( NULL );
       FString _sDeviceSerial      = MmddConfig::GetInstance().GetDeviceSerial( NULL );
       FString _sDeviceDescription = MmddConfig::GetInstance().GetDeviceDescription( NULL );
-      FString _sSourceIp   = FSocket::Inet2String( source.sin_addr );
-      WORD    _wSourcePort = ntohs( source.sin_port );
+      FString _sSourceIp          = FSocket::Inet2String( source.sin_addr );
+      WORD    _wSourcePort        = ntohs( source.sin_port );
       
       MMDP_DiscoveryReply  _reply(  
                                     _wDeviceType,
                                     (const BYTE*)(const char *)_sDeviceSerial,
-				    _sDeviceSerial.GetLen(),
+                                    _sDeviceSerial.GetLen(),
                                     (const BYTE*)(const char *)_sDeviceDescription,
-				    _sDeviceDescription.GetLen()
-				  );
+                                    _sDeviceDescription.GetLen()
+                                 );
 
       LOG_INFO( FString( 0, "SENDING: VER[%#X] CMD[%#X] TO DST[%s] ON PORT[%d]", _reply.VERSION, _reply.COMMAND, (const char*)_sSourceIp, _wSourcePort ), HandleMMDProtoMessage() ) 
       if ( SendMMDPMessage( &_reply, sizeof(_reply), source ) == FALSE )
       {
-	ERROR_INFO( "ERROR SENDING DISCOVERY REPLY",  HandleMMDProtoMessage() )
+        ERROR_INFO( "ERROR SENDING DISCOVERY REPLY",  HandleMMDProtoMessage() )
       }
     }; break;
 
+#if defined(_MMDD_EXEC_ENABLED)
     case MMDP_CMD_EXEC_REQUEST :
     {
       const MMDP_ExecRequest*  _cmd = (const MMDP_ExecRequest*)pHeader; 
@@ -309,6 +305,7 @@ ENTER( HandleMMDProtoMessage() )
          }
       }
     }; break;
+#endif  //#if defined(_MMDD_EXEC_ENABLED)
     
     default:
     {

@@ -74,8 +74,8 @@ private:
       /***/
       BOOL      SendMMDPMessage( const MMDP_Header* pHeader, size_t iMsgLen, struct sockaddr_in& source );
 private:
-      BOOL         m_bExit;
-      FSocket*     m_pSocket;
+      volatile BOOL  m_bExit;
+      FSocket*       m_pSocket;
 
 };
 
