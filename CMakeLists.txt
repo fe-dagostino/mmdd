@@ -22,7 +22,7 @@ IF( CMAKE_BUILD_TYPE STREQUAL "Debug" )
         -debug
      )
   set(  FEDLIB_VER
-        -3.1.1-static-debug
+        -3.2.0-static-debug
      )
 ELSE()
   set(  MMDD_VERSION
@@ -32,7 +32,7 @@ ELSE()
   set(  MMDE_VERSION
      )
   set(  FEDLIB_VER
-        -3.1.1-static
+        -3.2.0-static
      )
 ENDIF()
 
