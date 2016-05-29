@@ -1,6 +1,5 @@
-
 cmake_minimum_required (VERSION 2.6)
-PROJECT(mmdd)
+PROJECT(mmdd C CXX)
 
 include_directories( ./source/include/ )
 include_directories( ${CMAKE_INSTALL_PREFIX}/include/fedlibrary/include )
