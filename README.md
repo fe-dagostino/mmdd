@@ -1,3 +1,9 @@
+
+<a href="https://travis-ci.org/fe-dagostino/mmdd.svg?branch=master">
+  <img alt="Travis-CI Build Status"
+       src="https://travis-ci.org/fe-dagostino/mmdd.svg?branch=master"/>
+</a>
+
 Make Me Discoverable Daemon (MMDD)
 ====
 
