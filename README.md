@@ -1,5 +1,5 @@
 
-<a href="https://travis-ci.org/fe-dagostino/mmdd.svg?branch=master">
+<a href="https://travis-ci.org/">
   <img alt="Travis-CI Build Status"
        src="https://travis-ci.org/fe-dagostino/mmdd.svg?branch=master"/>
 </a>
