@@ -110,7 +110,7 @@ ENDIF()
 
 add_definitions( 
                   -Wall
-                  -std=C++11
+                  -std=c11
                   -D__STDC_CONSTANT_MACROS
                   -D_NO_FED_NAMESPACE
                   -D_TRACING_EXCEPTION_RAISE
